@@ -1,0 +1,45 @@
+CMAKE_MINIMUM_REQUIRED( VERSION 2.8 )
+
+PROJECT( simple_auto_cpu_timer )
+
+SET ( REQUIRED_BOOST_LIBS
+  system
+  #program_options
+  #thread
+  timer
+)
+
+SET ( MIN_BOOST_VERSION
+  1.45
+)
+
+
+MESSAGE("Searching boost libraries...\n")
+FIND_PACKAGE(
+  Boost
+  ${MIN_BOOST_VERSION} REQUIRED
+  COMPONENTS ${REQUIRED_BOOST_LIBS}
+)
+MESSAGE("")
+
+SET( CMAKE_CXX_FLAGS
+  "${CMAKE_CXX_FLAGS} --std=c++11"
+)
+
+SET( SOURCES_CXX
+  main.cpp
+)
+
+SET( EXECUTABLENAME
+  act
+)
+
+INCLUDE_DIRECTORIES( ${Boost_INCLDUE_DIRS} )
+
+ADD_EXECUTABLE( ${EXECUTABLENAME} ${SOURCES_CXX})
+
+TARGET_LINk_LIBRARIES( ${EXECUTABLENAME}
+  ${Boost_LIBRARIES}
+)
+
+
