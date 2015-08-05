@@ -1,6 +1,6 @@
 CMAKE_MINIMUM_REQUIRED( VERSION 2.8 )
 
-PROJECT( ast )
+PROJECT( simple_socket_client )
 
 SET ( REQUIRED_BOOST_LIBS
   system
@@ -13,7 +13,7 @@ SET ( MIN_BOOST_VERSION
 )
 
 
-MESSAGE("Searching boost...\n")
+MESSAGE("Searching boost libraries...\n")
 FIND_PACKAGE(
   Boost
   ${MIN_BOOST_VERSION} REQUIRED
@@ -32,7 +32,7 @@ SET( SOURCES_CXX
 )
 
 SET( EXECUTABLENAME
-  ast
+  ssc
 )
 
 INCLUDE_DIRECTORIES( ${Boost_INCLDUE_DIRS} )
