@@ -6,6 +6,7 @@ SET ( REQUIRED_BOOST_LIBS
   system
   program_options
   thread
+  timer
 )
 
 SET ( MIN_BOOST_VERSION
