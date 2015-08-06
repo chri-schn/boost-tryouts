@@ -2,8 +2,8 @@
 #include <cstring>
 #include <iostream>
 #include <boost/asio.hpp>
-#include <boost/current_function.hpp>
 #include <boost/bind.hpp>
+#include <boost/timer/timer.hpp>
 
 using boost::asio::ip::tcp;
 using namespace std;
@@ -29,6 +29,7 @@ private:
   
   void reconnect_in_5_sec()
   {
+    boost::timer::auto_cpu_timer timer;
     cout << BOOST_CURRENT_FUNCTION << endl;
     _t.expires_from_now(boost::posix_time::seconds(5));
     _t.async_wait(boost::bind(&MySimpleClient::connect,this));
@@ -37,10 +38,11 @@ private:
   
   void write_handler(const boost::system::error_code &ec, std::size_t bytes_transferred)
   {
+    boost::timer::auto_cpu_timer timer;
     cout << BOOST_CURRENT_FUNCTION << endl;
     if (!ec)
     {
-    cout << "Gesendet: " << bytes_transferred << endl;
+ //   cout << "Gesendet: " << bytes_transferred << endl;
     boost::asio::async_read(_socket,boost::asio::buffer(data,2),boost::bind(&MySimpleClient::read_handler, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
     }
     else
@@ -52,10 +54,11 @@ private:
   
   void read_handler(const boost::system::error_code &ec,  std::size_t bytes_transferred)
   {
+    boost::timer::auto_cpu_timer timer;
     cout << BOOST_CURRENT_FUNCTION << endl;
     if (!ec)
     {
-    cout << "Empfange !!! " << bytes_transferred << " bytes: " <<int(data[0]) << " " << int(data[1]) << endl;
+  //  cout << "Empfange !!! " << bytes_transferred << " bytes: " <<int(data[0]) << " " << int(data[1]) << endl;
     boost::asio::async_write(_socket,boost::asio::buffer(data,2),boost::bind(&MySimpleClient::write_handler, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
     }
     else
@@ -67,6 +70,7 @@ private:
 
   void connect_handler(const boost::system::error_code& ec)
   {
+    boost::timer::auto_cpu_timer timer;
     cout << BOOST_CURRENT_FUNCTION << endl;
     if(!ec)
     {
@@ -81,6 +85,7 @@ private:
 
   void resolve_handler(const boost::system::error_code &ec, boost::asio::ip::tcp::resolver::iterator it)
   {
+    boost::timer::auto_cpu_timer timer;
     cout << BOOST_CURRENT_FUNCTION << endl;
     if(!ec)
     {
@@ -94,6 +99,7 @@ private:
   
   void connect()
   {
+    boost::timer::auto_cpu_timer timer;
     cout << BOOST_CURRENT_FUNCTION << endl;
     tcp::resolver::query query(tcp::v4(),_host,_port);
     _resolver.async_resolve(query, boost::bind(&MySimpleClient::resolve_handler, this, boost::asio::placeholders::error, boost::asio::placeholders::iterator));
